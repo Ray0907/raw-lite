@@ -209,13 +209,31 @@ fn run_decoder(decoder: &Path, input: &Path) -> Result<Vec<u8>, String> {
     run_decoder_with_timeout(decoder, input, DECODER_TIMEOUT)
 }
 
+// LibRaw's dcraw_emu is not CLI-compatible with classic dcraw: `-c` means
+// "write to stdout" in dcraw but "set adjust-maximum threshold" (numeric) in
+// dcraw_emu, which instead selects stdout via `-Z -`.
+fn is_dcraw_emu(decoder: &Path) -> bool {
+    decoder
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .is_some_and(|stem| stem.to_ascii_lowercase().starts_with("dcraw_emu"))
+}
+
+fn decoder_args(decoder: &Path) -> &'static [&'static str] {
+    if is_dcraw_emu(decoder) {
+        &["-w", "-q", "3", "-H", "2", "-o", "1", "-Z", "-"]
+    } else {
+        &["-c", "-w", "-q", "3", "-H", "2", "-o", "1"]
+    }
+}
+
 fn run_decoder_with_timeout(
     decoder: &Path,
     input: &Path,
     timeout: Duration,
 ) -> Result<Vec<u8>, String> {
     let mut child = Command::new(decoder)
-        .args(["-c", "-w", "-q", "3", "-H", "2", "-o", "1"])
+        .args(decoder_args(decoder))
         .arg(input)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -338,6 +356,38 @@ fn encode_jpeg(file: File, image: &DynamicImage, quality: u8) -> Result<(), Stri
     JpegEncoder::new_with_quality(file, quality)
         .encode_image(image)
         .map_err(|error| format!("could not write JPEG: {error}"))
+}
+
+#[cfg(test)]
+mod decoder_args_tests {
+    use super::*;
+
+    #[test]
+    fn selects_dcraw_emu_args_for_dcraw_emu_variants() {
+        for name in [
+            "dcraw_emu",
+            "dcraw_emu-aarch64-apple-darwin",
+            "dcraw_emu-x86_64-pc-windows-msvc.exe",
+            "DCRAW_EMU",
+        ] {
+            assert_eq!(
+                decoder_args(Path::new(name)),
+                &["-w", "-q", "3", "-H", "2", "-o", "1", "-Z", "-"],
+                "expected dcraw_emu args for {name}"
+            );
+        }
+    }
+
+    #[test]
+    fn selects_classic_dcraw_args_otherwise() {
+        for name in ["dcraw", "dcraw.exe", "some-other-decoder"] {
+            assert_eq!(
+                decoder_args(Path::new(name)),
+                &["-c", "-w", "-q", "3", "-H", "2", "-o", "1"],
+                "expected classic dcraw args for {name}"
+            );
+        }
+    }
 }
 
 #[cfg(test)]

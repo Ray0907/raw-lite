@@ -64,11 +64,6 @@ for how release builds bundle a real per-platform `dcraw_emu` binary.
 
 - [`PRODUCT.md`](PRODUCT.md) — product scope, users, principles.
 - [`DESIGN.md`](DESIGN.md) — design decisions and rationale.
-- [`HANDOFF.md`](HANDOFF.md) — current implementation/handoff status.
-- [`docs/superpowers/specs/`](docs/superpowers/specs/) — original approved
-  design spec.
-- [`docs/superpowers/plans/`](docs/superpowers/plans/) — implementation
-  plan.
 
 ## License
 

@@ -37,7 +37,7 @@ Users choose an output folder, drop RAW files or folders, wait for batch convers
 
 ## Evidence on Hand
 
-The approved product and flow are documented in `docs/superpowers/specs/2026-09-11-raw-lite-design.md`. No logo, photography, testimonials, benchmarks, or bundled decoder binaries are present and none should be fabricated.
+The approved product and flow are documented in `DESIGN.md`. No logo, photography, testimonials, benchmarks, or bundled decoder binaries are present and none should be fabricated.
 
 ## Product Principles
 

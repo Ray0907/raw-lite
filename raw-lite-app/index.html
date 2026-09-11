@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#dfe4e1" />
+    <title>raw-lite</title>
+  </head>
+  <body>
+    <!--
+      THESIS: RAW conversion should feel like placing negatives into a labeled sleeve, not entering a photo editor.
+      OWN-WORLD: Cool archival paper, ink-green rules, translucent file cells, and one amber processing signal.
+      STORY: Choose where JPEGs go, drop RAW files, watch each frame clear, then continue in the opened folder.
+      FIRST VIEWPORT: Name and output destination lead; one large drop field owns the center; progress and advanced controls sit below.
+      FORM: Archival negative sleeve, grounded direction 5, seed 2cf10603.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
+    <main class="app-shell">
+      <header class="masthead">
+        <div>
+          <h1>raw-lite</h1>
+          <p>Smaller JPEG copies, without the photo-library overhead.</p>
+        </div>
+        <span class="format-mark" aria-label="RAW to JPEG">RAW&nbsp;→&nbsp;JPG</span>
+      </header>
+
+      <section class="destination" aria-labelledby="destination-title">
+        <div>
+          <h2 id="destination-title">Output folder</h2>
+          <p id="output-path">Choose where converted photos should go.</p>
+        </div>
+        <button id="choose-output" type="button">Choose folder</button>
+      </section>
+
+      <section
+        id="drop-zone"
+        class="drop-zone"
+        aria-labelledby="drop-title"
+        aria-describedby="drop-help"
+      >
+        <div class="frame-number" aria-hidden="true">01</div>
+        <svg class="drop-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M8 14.5h11l3-4h18v27H8z" />
+          <path d="M24 19v12m-5-5 5 5 5-5" />
+        </svg>
+        <h2 id="drop-title">Drop RAW files or folders</h2>
+        <p id="drop-help">CR2, CR3, ARW, NEF, DNG, RAF, RW2, and other common RAW formats</p>
+        <button id="choose-files" class="quiet-button" type="button">Choose RAW files</button>
+      </section>
+
+      <section id="progress-panel" class="progress-panel" aria-labelledby="progress-title" hidden>
+        <div class="progress-copy">
+          <h2 id="progress-title">Converting</h2>
+          <output id="progress-count">0 / 0</output>
+        </div>
+        <progress id="progress" value="0" max="1">0%</progress>
+        <p id="current-file" aria-live="polite"></p>
+      </section>
+
+      <section id="summary" class="summary" aria-labelledby="summary-title" hidden>
+        <h2 id="summary-title">Conversion complete</h2>
+        <p id="summary-copy" aria-live="polite"></p>
+        <p id="folder-warning" class="warning" hidden></p>
+        <ul id="failures"></ul>
+      </section>
+
+      <p id="error" class="error" role="alert" hidden></p>
+
+      <details class="advanced">
+        <summary>Advanced settings</summary>
+        <div class="settings-grid">
+          <label>
+            <span>Longest edge</span>
+            <span><input id="max-dimension" type="number" min="1" max="20000" value="2000" /> px</span>
+          </label>
+          <label>
+            <span>JPEG quality</span>
+            <span class="quality-control">
+              <input id="quality" type="range" min="1" max="100" value="75" />
+              <output id="quality-value" for="quality">75</output>
+            </span>
+          </label>
+        </div>
+      </details>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+[workspace]
+members = ["crates/raw-lite-core", "raw-lite-app/src-tauri"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+license = "MIT"
+version = "0.1.0"

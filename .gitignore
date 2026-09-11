@@ -1,0 +1,6 @@
+target/
+node_modules/
+dist/
+.impeccable/
+raw-lite-app/src-tauri/gen/
+.DS_Store

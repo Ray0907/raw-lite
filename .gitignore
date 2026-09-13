@@ -4,3 +4,4 @@ dist/
 .impeccable/
 raw-lite-app/src-tauri/gen/
 .DS_Store
+raw-lite-app/src-tauri/binaries/dcraw_emu-*

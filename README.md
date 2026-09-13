@@ -25,9 +25,12 @@ RAW files into a folder of reasonably-sized JPEGs you can actually share.
 ## Status
 
 v1, unsigned (no Apple notarization / Windows code signing yet). Core
-conversion logic and desktop shell are implemented and tested; packaging
-per-platform `dcraw_emu` binaries and real-RAW-file/manual QA across all
-three OSes is still outstanding before a public release build.
+conversion logic and desktop shell are implemented and tested. macOS
+(aarch64) has a verified release build: a bundled `dcraw_emu` binary,
+packaged with `npm run bundle`, converts a real RAW file end-to-end with
+no dependency on anything installed on the host machine. Windows and
+Linux release builds are untested — nobody has bundled a decoder binary
+or run the packaged app on those platforms yet.
 
 ## Project layout
 
